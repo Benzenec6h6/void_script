@@ -5,7 +5,7 @@ source "$SCRIPT_DIR/00_env.sh"
 
 echo "[+] Setting up musl repository config..."
 mkdir -p /mnt/etc/xbps.d
-echo "repository=https://repo.voidlinux.org/current/musl/x86_64-musl" > /mnt/etc/xbps.d/00-repository-main.conf
+echo "repository=https://repo-fastly.voidlinux.org/current/musl" > /mnt/etc/xbps.d/00-repository-main.conf
 
 echo "[+] Installing base-system..."
 xbps-install -Sy -r /mnt base-system
