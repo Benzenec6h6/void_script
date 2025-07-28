@@ -10,7 +10,7 @@ mkdir -p /mnt/etc/xbps.d
 echo "repository=https://repo-fastly.voidlinux.org/current" > /mnt/etc/xbps.d/00-repository-main.conf
 
 echo "[+] Installing base-system..."
-xbps-install -Sy -r /mnt base-system
+XBPS_ARCH=x86_64-musl xbps-install -Sy -r /mnt base-system
 
 echo "[+] Copying files into /mnt..."
 cp -r "$PROJECT_ROOT/chroot" /mnt/chroot
