@@ -1,10 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
-
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
-ENV_FILE="$PROJECT_ROOT/env/env.sh"
-source "$ENV_FILE"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source "$SCRIPT_DIR/00_env.sh"
 
 xbps-install -Sy -R "https://repo.voidlinux.org/current/musl" -r /mnt base-system
 
