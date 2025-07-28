@@ -5,11 +5,8 @@ source "$SCRIPT_DIR/00_env.sh"
 
 echo "[+] Creating partitions on $TARGET_DISK"
 
-maybe_ignore() {
-  "$@" || echo "[!] Ignored error from: $*"
-}
-
-maybe_ignore sgdisk --zap-all "$TARGET_DISK"
+xbps-install -Sy gptfdisk
+sgdisk --zap-all "$TARGET_DISK"
 
 if [[ -d /sys/firmware/efi ]]; then
   sgdisk -n1:0:+512M -t1:ef00 -c1:"EFI" "$TARGET_DISK"
