@@ -24,6 +24,7 @@ mkdir -p "$MOUNTPOINT/etc/xbps.d"
 echo "repository=https://repo-default.voidlinux.org/current/musl" > "$MOUNTPOINT/etc/xbps.d/00-repository-main.conf"
 
 echo "[+] Copying setup files into $MOUNTPOINT..."
+cp -r "$SCRIPT_DIR/assets" "$MOUNTPOINT/assets"
 cp -r "$SCRIPT_DIR/chroot" "$MOUNTPOINT/chroot"
 cp "$SCRIPT_DIR/00_env.sh" "$MOUNTPOINT/00_env.sh"
 
