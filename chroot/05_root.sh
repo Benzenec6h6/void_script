@@ -27,9 +27,6 @@ echo "[+] Installing sudo"
 xbps-install -y sudo
 sed -i 's|# %wheel ALL=(ALL) ALL|%wheel ALL=(ALL) ALL|' /etc/sudoers
 
-echo "[+] Copysing fstab"
-cp ./assets/fstab /etc/fstab
-
 for script in /chroot/{06..08}_*.sh; do
   bash "$script"
 done
