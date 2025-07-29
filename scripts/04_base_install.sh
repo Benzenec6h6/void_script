@@ -28,5 +28,8 @@ cp -r "$SCRIPT_DIR/assets" "$MOUNTPOINT/assets"
 cp -r "$SCRIPT_DIR/chroot" "$MOUNTPOINT/chroot"
 cp "$SCRIPT_DIR/00_env.sh" "$MOUNTPOINT/00_env.sh"
 
+echo "[+] Generating fstab"
+xgenfstab -U /mnt > /mnt/etc/fstab
+
 echo "[+] Entering chroot environment..."
 xchroot "$MOUNTPOINT" /bin/bash /chroot/05_root.sh
