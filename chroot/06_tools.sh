@@ -3,6 +3,10 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source "$SCRIPT_DIR/00_env.sh"
 
+xbps-install -Sy linux 
+xbps-install -y dracut
+dracut --force
+
 if [[ "$BOOTLOADER" == "grub" ]]; then
   echo "[+] Installing GRUB..."
   xbps-install -y grub-x86_64-efi efibootmgr dosfstools os-prober
