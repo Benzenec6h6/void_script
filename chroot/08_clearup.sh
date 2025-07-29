@@ -5,6 +5,7 @@ source "$SCRIPT_DIR/00_env.sh"
 
 echo "[+] Cleaning up chroot setup..."
 rm -rf "$MOUNTPOINT/chroot"
+rm -rf "$MOUNTPOINT/assets"
 
 echo "[+] Disabling swap..."
 swapoff "${TARGET_DISK}2"
