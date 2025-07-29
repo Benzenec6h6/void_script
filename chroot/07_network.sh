@@ -26,7 +26,7 @@ disable_service() {
 
 case "$NETMGR" in
   dhcpcd)
-    xbps-install -y dhcpcd
+    #xbps-install -y dhcpcd
     enable_service dhcpcd
     disable_service iwd
     ;;
