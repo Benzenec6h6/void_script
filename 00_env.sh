@@ -3,7 +3,7 @@ set -euo pipefail
 
 # 共通変数
 export MOUNTPOINT="/mnt"
-export ARCH="amd64"
+export ARCH="x86_64-musl"
 export HOSTNAME="void"
 export TIMEZONE="Asia/Tokyo"
 export TARGET_DISK=""
