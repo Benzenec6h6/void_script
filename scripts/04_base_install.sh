@@ -3,22 +3,29 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source "$SCRIPT_DIR/00_env.sh"
 
-echo "[+] Setting up musl repository config..."
-mkdir -p /mnt/var/db/xbps/keys
-cp -a /var/db/xbps/keys/* /mnt/var/db/xbps/keys/
-cp ./assets/xbps_arch.sh /etc/profile.d
-source /etc/profile.d/xbps_arch.sh
-mkdir -p /mnt/etc/xbps.d
-mkdir -p /mnt/etc/profile.d
-cp ./assets/xbps_arch.sh /mnt/etc/profile.d/
-echo "repository=https://repo-default.voidlinux.org/current" > /mnt/etc/xbps.d/00-repository-main.conf
+echo "[+] Downloading latest musl ROOTFS tarball..."
 
-echo "[+] Installing base-system..."
-XBPS_ARCH=x86_64-musl xbps-install -Sy -r /mnt base-system
+BASE_URL="https://repo-default.voidlinux.org/live/current"
+ROOTFS_NAME=$(curl -s "$BASE_URL/" | grep -oE 'void-x86_64-musl-ROOTFS-[0-9]+\.tar\.xz' | sort -V | tail -n1)
 
-echo "[+] Copying files into /mnt..."
-cp -r "$PROJECT_ROOT/chroot" /mnt/chroot
-cp "$PROJECT_ROOT/00_env.sh" /mnt/00_env.sh
+echo "[+] Latest ROOTFS found: $ROOTFS_NAME"
+curl -LO "$BASE_URL/$ROOTFS_NAME"
+
+echo "[+] Extracting ROOTFS to $MOUNTPOINT"
+mkdir -p "$MOUNTPOINT"
+tar -xpf "$ROOTFS_NAME" -C "$MOUNTPOINT"
+
+echo "[+] Setting up XBPS keys..."
+mkdir -p "$MOUNTPOINT/var/db/xbps/keys"
+cp -a /var/db/xbps/keys/* "$MOUNTPOINT/var/db/xbps/keys/"
+
+echo "[+] Setting up xbps.d repository config..."
+mkdir -p "$MOUNTPOINT/etc/xbps.d"
+echo "repository=https://repo-default.voidlinux.org/current/musl" > "$MOUNTPOINT/etc/xbps.d/00-repository-main.conf"
+
+echo "[+] Copying setup files into $MOUNTPOINT..."
+cp -r "$SCRIPT_DIR/chroot" "$MOUNTPOINT/chroot"
+cp "$SCRIPT_DIR/00_env.sh" "$MOUNTPOINT/00_env.sh"
 
 echo "[+] Entering chroot environment..."
-xchroot /mnt /bin/bash /chroot/05_root.sh
+xchroot "$MOUNTPOINT" /bin/bash /chroot/05_root.sh
