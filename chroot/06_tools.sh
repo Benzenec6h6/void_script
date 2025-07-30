@@ -5,9 +5,7 @@ source "$SCRIPT_DIR/00_env.sh"
 
 xbps-install -S
 xbps-install -uy xbps
-xbps-install -Sy linux
-xbps-install -y dracut
-dracut --force
+xbps-install -y linux linux-firmware dracut
 
 if [[ "$BOOTLOADER" == "grub" ]]; then
   echo "[+] Installing GRUB..."
@@ -35,3 +33,5 @@ else
   echo "[!] Unknown bootloader: $BOOTLOADER"
   exit 1
 fi
+
+dracut --force
