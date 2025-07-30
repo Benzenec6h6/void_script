@@ -6,7 +6,7 @@ source "$SCRIPT_DIR/00_env.sh"
 echo "[+] Downloading latest musl ROOTFS tarball..."
 
 BASE_URL="https://repo-default.voidlinux.org/live/current"
-ROOTFS_NAME=$(curl -s "$BASE_URL/" | grep -oE 'void-x86_64-musl-ROOTFS-[0-9]+\.tar\.xz' | sort -V | tail -n1)
+ROOTFS_NAME=$(curl -s "$BASE_URL/" | grep -oE "void-${ARCH}-ROOTFS-[0-9]+\.tar\.xz" | sort -V | tail -n1)
 
 echo "[+] Latest ROOTFS found: $ROOTFS_NAME"
 curl -LO "$BASE_URL/$ROOTFS_NAME"
