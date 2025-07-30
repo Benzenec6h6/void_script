@@ -10,24 +10,6 @@ xbps-install -uy xbps
 echo "[+] Installing kernel and related tools"
 xbps-install -y linux linux-firmware dracut
 
-# wait for /lib/modules to be populated
-KERNEL_VERSION=$(xbps-query -R -f linux | grep ^/lib/modules | sed 's|/lib/modules/||' | cut -d/ -f1)
-MODULE_DIR="/lib/modules/$KERNEL_VERSION"
-
-if [[ ! -d "$MODULE_DIR" ]]; then
-  echo "[!] Kernel modules directory not found: $MODULE_DIR"
-  echo "[*] Waiting for it to be created..."
-  sleep 2
-fi
-
-if [[ -d "$MODULE_DIR" ]]; then
-  echo "[+] Running dracut..."
-  dracut --force
-else
-  echo "[!] Kernel modules still not found, running dracut with --no-kernel"
-  dracut --no-kernel --force
-fi
-
 # Bootloader installation
 if [[ "$BOOTLOADER" == "grub" ]]; then
   echo "[+] Installing GRUB..."
