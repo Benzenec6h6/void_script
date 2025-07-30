@@ -3,7 +3,8 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source "$SCRIPT_DIR/00_env.sh"
 
-xbps-install -y -u xbps
+xbps-install -S
+xbps-install -uy xbps
 xbps-install -Sy linux
 xbps-install -y dracut
 dracut --force
