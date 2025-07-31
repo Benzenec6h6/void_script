@@ -26,10 +26,10 @@ disable_service() {
 
 case "$NETMGR" in
   dhcpcd)
-    echo "dhcpcd is already enabled"
     #xbps-install -y dhcpcd
     enable_service dhcpcd
     #disable_service iwd
+    echo "dhcpcd is already enabled"
     ;;
   iwd)
     xbps-install -y iwd
@@ -41,3 +41,4 @@ case "$NETMGR" in
     exit 1
     ;;
 esac
+echo "07 finished" | tee -a /var/log/installer.log

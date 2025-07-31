@@ -3,6 +3,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source "$SCRIPT_DIR/00_env.sh"
 
+echo "08 started" | tee -a /var/log/installer.log
 dracut --force
 
 echo "[+] Cleaning up chroot setup..."
