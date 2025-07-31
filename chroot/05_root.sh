@@ -25,7 +25,7 @@ passwd "$USERNAME"
 
 echo "[+] Installing sudo"
 xbps-install -y sudo
-sed -i 's|# %wheel ALL=(ALL) ALL|%wheel ALL=(ALL) ALL|' /etc/sudoers
+sed -i 's|# %wheel ALL=(ALL:ALL) ALL|%wheel ALL=(ALL:ALL) ALL|' /etc/sudoers
 
 for script in /chroot/{06..08}_*.sh; do
   bash "$script"
