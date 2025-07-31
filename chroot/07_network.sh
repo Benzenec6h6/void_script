@@ -8,8 +8,18 @@ echo "[+] Configuring network with $NETMGR"
 # Helper: enable a runit service safely
 enable_service() {
   local svc="$1"
+  if [ -z "$svc" ]; then
+    echo "[!] Error: service name is empty"
+    return 1
+  fi
+
+  if [ ! -d "/etc/sv/$svc" ]; then
+    echo "[!] Service directory /etc/sv/$svc not found"
+    return 1
+  fi
+
   if [ ! -e "/var/service/$svc" ]; then
-    ln -s "/etc/sv/$svc" "/var/service/"
+    ln -s "/etc/sv/$svc" "/var/service/$svc"
   else
     echo "[i] Service $svc already enabled"
   fi
@@ -28,8 +38,8 @@ case "$NETMGR" in
   dhcpcd)
     #xbps-install -y dhcpcd
     enable_service dhcpcd
-    #disable_service iwd
-    echo "dhcpcd is already enabled"
+    disable_service iwd
+    echo $NETMGR
     ;;
   iwd)
     xbps-install -y iwd
