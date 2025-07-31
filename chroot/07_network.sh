@@ -28,7 +28,7 @@ case "$NETMGR" in
   dhcpcd)
     echo "dhcpcd is already enabled"
     #xbps-install -y dhcpcd
-    #enable_service dhcpcd
+    enable_service dhcpcd
     #disable_service iwd
     ;;
   iwd)
