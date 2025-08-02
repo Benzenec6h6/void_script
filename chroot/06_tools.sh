@@ -8,7 +8,7 @@ xbps-install -S
 xbps-install -uy xbps
 
 echo "[+] Installing kernel and related tools"
-xbps-install -y linux linux-firmware dracut
+xbps-install -y linux linux-firmware kernel-modules dracut
 
 # Bootloader installation
 xbps-install -y efibootmgr dosfstools
