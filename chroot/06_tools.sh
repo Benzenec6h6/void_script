@@ -25,14 +25,27 @@ if [[ "$BOOTLOADER" == "grub" ]]; then
 elif [[ "$BOOTLOADER" == "EFISTUB" ]]; then
   echo "[+] Setting up EFISTUB boot entry..."
 
-  KERNEL=$(ls /boot/vmlinuz-* | head -n1)
-  INITRD=$(ls /boot/initramfs-* | head -n1)
+  mkdir -p /boot/efi
+  mountpoint -q /boot/efi || mount "${TARGET_DISK}1" /boot/efi
+
+  BOOT_EFI_DIR=/boot/efi/EFI/VoidLinux
+  mkdir -p "$BOOT_EFI_DIR"
+
+  KERNEL_SRC=$(ls /boot/vmlinuz-* | head -n1)
+  INITRD_SRC=$(ls /boot/initramfs-* | head -n1)
+
+  KERNEL_FILE=$(basename "$KERNEL_SRC")
+  INITRD_FILE=$(basename "$INITRD_SRC")
+
+  cp "$KERNEL_SRC" "$BOOT_EFI_DIR/$KERNEL_FILE"
+  cp "$INITRD_SRC" "$BOOT_EFI_DIR/$INITRD_FILE"
+
   PARTUUID=$(blkid -s PARTUUID -o value "${TARGET_DISK}3")
 
   efibootmgr --create --disk "$TARGET_DISK" --part 1 \
     --label "VoidLinux" \
-    --loader "\\vmlinuz-$(basename "$KERNEL")" \
-    --unicode "root=PARTUUID=$PARTUUID rw initrd=\\initramfs-$(basename "$INITRD")" \
+    --loader "\\EFI\\VoidLinux\\$KERNEL_FILE" \
+    --unicode "root=PARTUUID=$PARTUUID rw initrd=\\EFI\\VoidLinux\\$INITRD_FILE" \
     --verbose
 else
   echo "[!] Unknown bootloader: $BOOTLOADER"
