@@ -13,33 +13,34 @@ enable_service() {
     return 1
   fi
 
-  if [ ! -d "/etc/sv/$svc" ]; then
+  if [ ! -e "/etc/sv/$svc" ]; then
     echo "[!] Service directory /etc/sv/$svc not found"
     return 1
   fi
 
-  if [ ! -e "/var/service/$svc" ]; then
-    ln -s "/etc/sv/$svc" "/var/service/$svc"
+  if [ ! -e "/etc/runit/runsvdir/default/$svc" ]; then
+    ln -s "/etc/sv/$svc" "/etc/runit/runsvdir/default/$svc"
+    echo "[i] Service $svc enabled"
   else
     echo "[i] Service $svc already enabled"
   fi
 }
 
-# Helper: disable a runit service safely
 disable_service() {
   local svc="$1"
-  if [ -L "/var/service/$svc" ]; then
-    rm "/var/service/$svc"
+  if [ -L "/etc/runit/runsvdir/default/$svc" ]; then
+    rm "/etc/runit/runsvdir/default/$svc"
     echo "[i] Service $svc disabled"
+  else
+    echo "[i] Service $svc is not enabled"
   fi
 }
 
 case "$NETMGR" in
   dhcpcd)
-    #xbps-install -y dhcpcd
+    # xbps-install -y dhcpcd
     enable_service dhcpcd
     disable_service iwd
-    echo $NETMGR
     ;;
   iwd)
     xbps-install -y iwd
@@ -51,4 +52,3 @@ case "$NETMGR" in
     exit 1
     ;;
 esac
-echo "07 finished" | tee -a /var/log/installer.log
