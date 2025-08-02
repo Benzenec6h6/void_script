@@ -11,7 +11,7 @@ echo "[+] Installing kernel and related tools"
 xbps-install -y linux linux-firmware dracut
 
 # Bootloader installation
-xbps-install -y efibootmgr dosfstools
+xbps-install -y efibootmgr
 mkdir -p /boot/efi
 mountpoint -q /boot/efi || mount "${TARGET_DISK}1" /boot/efi
 if [[ "$BOOTLOADER" == "grub" ]]; then

@@ -5,7 +5,7 @@ source "$SCRIPT_DIR/00_env.sh"
 
 echo "[+] Creating partitions on $TARGET_DISK"
 
-xbps-install -Sy gptfdisk curl xz
+xbps-install -Sy gptfdisk dosfstools curl xz
 sgdisk --zap-all "$TARGET_DISK"
 
 if [[ -d /sys/firmware/efi ]]; then
