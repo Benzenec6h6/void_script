@@ -16,10 +16,8 @@ echo "[+] Disabling swap..."
 swapoff "${TARGET_DISK}2"
 
 echo "[+] Unmounting filesystems..."
-umount -l /mnt/dev
-umount -l /mnt/sys
-umount -l /mnt/proc
 umount -l /mnt/lib/modules
+umount /mnt/boot/efi
 umount /mnt  # これで最後に本体を解除
 
 echo "[+] Installation complete."
