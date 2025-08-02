@@ -16,7 +16,11 @@ echo "[+] Disabling swap..."
 swapoff "${TARGET_DISK}2"
 
 echo "[+] Unmounting filesystems..."
-umount -R "$MOUNTPOINT"
+umount -l /mnt/dev
+umount -l /mnt/sys
+umount -l /mnt/proc
+umount -l /mnt/lib/modules
+umount /mnt  # これで最後に本体を解除
 
 echo "[+] Installation complete."
 read -rp "Reboot now? (y/N): " reboot_choice
