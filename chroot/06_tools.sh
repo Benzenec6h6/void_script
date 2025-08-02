@@ -12,21 +12,17 @@ xbps-install -y linux linux-firmware dracut
 
 # Bootloader installation
 xbps-install -y efibootmgr dosfstools
+mkdir -p /boot/efi
+mountpoint -q /boot/efi || mount "${TARGET_DISK}1" /boot/efi
 if [[ "$BOOTLOADER" == "grub" ]]; then
   echo "[+] Installing GRUB..."
   xbps-install -y grub-x86_64-efi os-prober
-
-  mkdir -p /boot/efi
-  mountpoint -q /boot/efi || mount "${TARGET_DISK}1" /boot/efi
 
   grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=VoidLinux
   grub-mkconfig -o /boot/grub/grub.cfg
 
 elif [[ "$BOOTLOADER" == "EFISTUB" ]]; then
   echo "[+] Setting up EFISTUB boot entry..."
-
-  mkdir -p /boot/efi
-  mountpoint -q /boot/efi || mount "${TARGET_DISK}1" /boot/efi
 
   BOOT_EFI_DIR=/boot/efi/EFI/VoidLinux
   mkdir -p "$BOOT_EFI_DIR"
