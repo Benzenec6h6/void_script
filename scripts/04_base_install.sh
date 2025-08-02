@@ -27,11 +27,19 @@ echo "[+] Copying setup files into $MOUNTPOINT..."
 cp -r "$SCRIPT_DIR/assets" "$MOUNTPOINT/assets"
 cp -r "$SCRIPT_DIR/chroot" "$MOUNTPOINT/chroot"
 cp "$SCRIPT_DIR/00_env.sh" "$MOUNTPOINT/00_env.sh"
-mount --bind /lib/modules /mnt/lib/modules
-mount --bind /lib/firmware /mnt/lib/firmware
+mkdir -p "$MOUNTPOINT/lib/modules"
+mkdir -p "$MOUNTPOINT/lib/firmware"
+mkdir -p "$MOUNTPOINT/proc"
+mkdir -p "$MOUNTPOINT/sys"
+mkdir -p "$MOUNTPOINT/dev"
+mount --bind /lib/modules "$MOUNTPOINT/lib/modules"
+mount --bind /lib/firmware "$MOUNTPOINT/lib/firmware"
+mount -t proc proc "$MOUNTPOINT/proc"
+mount --rbind /sys "$MOUNTPOINT/sys"
+mount --rbind /dev "$MOUNTPOINT/dev"
 
 echo "[+] Generating fstab"
-xgenfstab -U /mnt > /mnt/etc/fstab
+xgenfstab -U "$MOUNTPOINT" > "$MOUNTPOINT/etc/fstab"
 
 echo "[+] Entering chroot environment..."
 xchroot "$MOUNTPOINT" /bin/bash /chroot/05_root.sh
