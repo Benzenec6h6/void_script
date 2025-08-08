@@ -15,6 +15,7 @@ echo "[+] Disabling swap..."
 swapoff "${TARGET_DISK}2"
 
 echo "[+] Unmounting filesystems..."
+umount -l "$MOUNTPOINT/boot/efi"
 umount -Rl "$MOUNTPOINT"
 
 echo "[+] Installation complete."
