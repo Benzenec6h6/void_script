@@ -12,8 +12,8 @@ xbps-install -y linux linux-firmware dracut
 
 # Bootloader installation
 xbps-install -y efibootmgr
-mkdir -p /boot/efi
-mountpoint -q /boot/efi || mount "${TARGET_DISK}1" /boot/efi
+#mkdir -p /boot/efi
+#mountpoint -q /boot/efi || mount "${TARGET_DISK}1" /boot/efi
 if [[ "$BOOTLOADER" == "grub" ]]; then
   echo "[+] Installing GRUB..."
   xbps-install -y grub-x86_64-efi os-prober
