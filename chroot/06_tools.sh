@@ -9,11 +9,11 @@ xbps-install -uy xbps
 
 echo "[+] Installing kernel and related tools"
 xbps-install -y linux linux-firmware dracut
+echo 'add_drivers+=" vfat fat "' > /etc/dracut.conf.d/vfat.conf
+dracut --force /boot/initramfs-$(uname -r).img $(uname -r)
 
 # Bootloader installation
 xbps-install -y efibootmgr
-#mkdir -p /boot/efi
-#mountpoint -q /boot/efi || mount "${TARGET_DISK}1" /boot/efi
 if [[ "$BOOTLOADER" == "grub" ]]; then
   echo "[+] Installing GRUB..."
   xbps-install -y grub-x86_64-efi os-prober

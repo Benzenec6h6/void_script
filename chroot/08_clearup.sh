@@ -3,9 +3,6 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source "$SCRIPT_DIR/00_env.sh"
 
-echo 'add_drivers+=" vfat fat "' > /etc/dracut.conf.d/vfat.conf
-dracut --force /boot/initramfs-$(uname -r).img $(uname -r)
-
 echo "[+] Cleaning up chroot setup..."
 rm -rf "$MOUNTPOINT/chroot"
 rm -rf "$MOUNTPOINT/assets"
