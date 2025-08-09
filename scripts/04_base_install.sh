@@ -27,6 +27,8 @@ echo "[+] Copying setup files into $MOUNTPOINT..."
 cp -r "$SCRIPT_DIR/assets" "$MOUNTPOINT/assets"
 cp -r "$SCRIPT_DIR/chroot" "$MOUNTPOINT/chroot"
 cp "$SCRIPT_DIR/00_env.sh" "$MOUNTPOINT/00_env.sh"
+mkdir -p "$MOUNTPOINT/lib/modules"
+mount --bind /lib/modules "$MOUNTPOINT/lib/modules"
 
 echo "[+] Generating fstab"
 xgenfstab -U "$MOUNTPOINT" > "$MOUNTPOINT/etc/fstab"

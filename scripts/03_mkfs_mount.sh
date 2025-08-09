@@ -18,6 +18,3 @@ if [[ -d /sys/firmware/efi ]]; then
 else
   mkdir -p "$MOUNTPOINT/boot"
 fi
-
-mkdir -p "$MOUNTPOINT/lib/modules"
-mount --bind /lib/modules "$MOUNTPOINT/lib/modules"
